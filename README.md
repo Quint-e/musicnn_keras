@@ -37,6 +37,38 @@ musicnn = tf.keras.models.load_model('./musicnn_keras/keras_checkpoints/MSD_musi
 
 Note that if you are only interested in loading the pre-trained models in your code, you do not need to install the `musicnn_keras` package. `tf.keras.models.load_model` is sufficient. 
 
+## Transfer Learning
+One may want to access intermediate layers of the models, for extracting features and/or transfer learning applications. 
+This is easily achieved in python by creating a truncated model.
+
+For example, truncating at the penultimate layer of musicnn:
+~~~~python
+import tensorflow as tf
+keras_model = tf.keras.models.load_model('./musicnn_keras/keras_checkpoints/MSD_musicnn.h5')
+truncated_model = tf.keras.Model(keras_model.input,keras_model.get_layer('bn_dense').output)
+~~~~
+
+Or the output of the max-pooling of the 3rd layer of a vgg model:
+~~~~python
+import tensorflow as tf
+keras_model = tf.keras.models.load_model('./musicnn_keras/keras_checkpoints/MSD_vgg.h5')
+truncated_model = tf.keras.Model(keras_model.input,keras_model.get_layer('pool3').output)
+~~~~
+
+The `truncated_model` can then be used as any other tf.keras model, for example using `truncated_model.predict()` to get features.
+
+One may also want to add new, "fresh" layer(s) to the truncated model. Again, this can be achieved with the usual keras Model api. 
+For example, adding a dense layer with 200 units at the top of the truncated model:
+~~~~python
+input_layer = tf.keras.Input(shape=input_shape)
+x = truncated_model(input_layer)
+x = tf.keras.layers.Dense(units=200,activation=tf.nn.relu)(x)
+new_model = tf.keras.Model(input_layer, x)
+~~~~
+
+Again, `new_model` can then be used like any other tf.keras model. For example using `new_model.fit()` to train on new data. 
+
+
 ## Predict tags
 
 From within **python**, you can estimate the topN tags:
