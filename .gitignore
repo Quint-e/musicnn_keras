@@ -1,2 +1,5 @@
 .DS_Store
 **/.DS_Store
+build/**
+dist/**
+musicnn_keras.egg-info/**

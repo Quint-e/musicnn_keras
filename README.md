@@ -24,6 +24,8 @@ Or clone the repository and install from source:
 Dependencies:  `Tensorflow>=2.0`, `librosa>=0.7.0` and `numpy<1.17,>=1.14.5`. 
 
 ## Load pre-trained models
+Pre-trained models are available in `musicnn_keras/keras_checkpoints/`
+
 Loading pre-trained model is simply achieved by using the dedicated tf.keras API: 
 
 ~~~~python
@@ -31,7 +33,7 @@ import tensorflow as tf
 musicnn = tf.keras.models.load_model('./musicnn_keras/keras_checkpoints/MSD_musicnn.h5')
 ~~~~
 
-`musicnn` can then be used like any other keras model. 
+`musicnn` can then be used like any other [keras model](https://www.tensorflow.org/api_docs/python/tf/keras/Model). 
 
 Note that if you are only interested in loading the pre-trained models in your code, you do not need to install the `musicnn_keras` package. `tf.keras.models.load_model` is sufficient. 
 
