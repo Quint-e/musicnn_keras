@@ -108,7 +108,7 @@ def extractor(file_name, model='MSD_musicnn', input_length=3, input_overlap=Fals
     Example: see our musicnn and vgg examples.
 
     '''
-    # tensorflow: loading model
+    # loading tf.keras model
     try:
         keras_model = tf.keras.models.load_model('./musicnn_keras/keras_checkpoints/{}.h5'.format(model))
     except:
@@ -137,13 +137,11 @@ def extractor(file_name, model='MSD_musicnn', input_length=3, input_overlap=Fals
     batch, spectrogram = batch_data(file_name, n_frames, overlap)
     batch = tf.expand_dims(batch, 3)  # Add channel dimension
 
-    # tensorflow: extract tagram
+    # extract tagram
     taggram = keras_model.predict_on_batch(batch)
 
     if extract_features:
-        # raise ValueError("Feature extraction is not implemented yet...")
         if 'vgg' in model:
-            # pool1, pool2, pool3, pool4, pool5
             intermediate_layer_model_pool1 = tf.keras.Model(keras_model.input,
                                                             keras_model.get_layer('pool1').output)
             intermediate_layer_model_pool2 = tf.keras.Model(keras_model.input,
@@ -168,7 +166,6 @@ def extractor(file_name, model='MSD_musicnn', input_length=3, input_overlap=Fals
             features['pool4'] = np.reshape(pool4_out, (pool4_out.shape[0]*pool4_out.shape[1],pool4_out.shape[2],pool4_out.shape[3]))
             features['pool5'] = np.reshape(pool5_out, (pool5_out.shape[0]*pool5_out.shape[1],pool5_out.shape[2]))
         else:
-            # timbral, temporal, cnn1, cnn2, cnn3, mean_pool, max_pool, penultimate
             intermediate_layer_model_frontend_features = tf.keras.Model(keras_model.input,
                                                                keras_model.get_layer('tf_op_layer_concat').output)
             intermediate_layer_model_cnn1 = tf.keras.Model(keras_model.input,
