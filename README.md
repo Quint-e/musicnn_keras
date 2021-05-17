@@ -21,7 +21,7 @@ Or clone the repository and install from source:
 
 ``` python setup.py install```
 
-Dependencies:  `Tensorflow>=2.0,<=2.0.4`, `librosa==0.7.0` and `numpy<1.17,>=1.14.5`. 
+Dependencies:  `Tensorflow>=2.0`, `librosa>=0.7.0` and `numpy<1.17,>=1.14.5`. 
 
 ## Load pre-trained models
 Pre-trained models are available in `musicnn_keras/keras_checkpoints/`
