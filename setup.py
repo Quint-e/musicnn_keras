@@ -10,6 +10,9 @@ setup(
     author='Elio Quinton',
     url='https://github.com/Quint-e/musicnn_keras',
     packages=find_packages(),
+    package_data={
+        # Include .h5 files (pre-trained models):
+        "": ["*.h5"]},
     include_package_data=True,
     long_description=long_description,
     long_description_content_type="text/markdown",
