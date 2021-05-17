@@ -4,6 +4,7 @@ import librosa
 
 import tensorflow as tf
 from musicnn_keras import configuration as config
+from musicnn_keras.keras_checkpoints import MSD_musicnn, MSD_musicnn_big, MSD_vgg, MTT_musicnn, MTT_vgg
 
 
 def batch_data(audio_file, n_frames, overlap):
@@ -56,6 +57,25 @@ def batch_data(audio_file, n_frames, overlap):
             batch = np.concatenate((batch, patch), axis=0)
 
     return batch, audio_rep
+
+def model_loader(model):
+    allowed_models = ['MSD_musicnn','MSD_musicnn_big','MSD_vgg','MTT_musicnn','MTT_vgg']
+    # Parse argument and select appropriate model path.
+    if model=='MSD_musicnn':
+        model_path = MSD_musicnn
+    elif model=='MSD_musicnn_big':
+        model_path = MSD_musicnn_big
+    elif model=='MSD_vgg':
+        model_path = MSD_vgg
+    elif model=='MTT_musicnn':
+        model_path = MTT_musicnn
+    elif model=='MTT_vgg':
+        model_path = MTT_vgg
+    else:
+        raise ValueError('Unknown model. Model should be one of {}'.format(allowed_models))
+    # Load keras model
+    keras_model = tf.keras.models.load_model(model_path)
+    return keras_model
 
 
 def extractor(file_name, model='MSD_musicnn', input_length=3, input_overlap=False, extract_features=False):
@@ -110,9 +130,9 @@ def extractor(file_name, model='MSD_musicnn', input_length=3, input_overlap=Fals
     '''
     # loading tf.keras model
     try:
-        keras_model = tf.keras.models.load_model('./musicnn_keras/keras_checkpoints/{}.h5'.format(model))
+        keras_model = model_loader(model)
     except:
-        raise ValueError('Unknown model')
+        raise ValueError('Failed to load pre-trained model')
 
     # select labels
     if 'MTT' in model:
