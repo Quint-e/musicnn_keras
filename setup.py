@@ -5,7 +5,7 @@ with open('README.md') as file:
 
 setup(
     name='musicnn_keras',
-    version='0.1.0',
+    version='0.1.1',
     description='Pronounced as "musician", musicnn is a set of pre-trained deep convolutional neural networks for music audio tagging. Musicnn_keras is a tf.keras implementation of musicnn',
     author='Elio Quinton',
     url='https://github.com/Quint-e/musicnn_keras',
