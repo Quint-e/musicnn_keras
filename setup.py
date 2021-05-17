@@ -25,7 +25,7 @@ setup(
     ],
     keywords='audio music deep learning tagging tensorflow keras machine listening',
     license='ISC',
-    install_requires=['librosa>=0.7.0',
-                      'tensorflow>=2.0',
+    install_requires=['librosa==0.7.0',
+                      'tensorflow>=2.0,<=2.0.4',
                       'numpy<1.17,>=1.14.5']
 )

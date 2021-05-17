@@ -3,3 +3,4 @@
 build/**
 dist/**
 musicnn_keras.egg-info/**
+.idea/*
